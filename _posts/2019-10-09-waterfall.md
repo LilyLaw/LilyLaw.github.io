@@ -8,9 +8,9 @@ title: 前端之瀑布流布局（多种实现方案）
 
 瀑布流布局一般是下面这个样子
 
-PC：![PC端](https://upload-images.jianshu.io/upload_images/16641848-81af991dfc8f1a3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+PC：![PC端](https://upload-images.jianshu.io/upload_images/16641848-81af991dfc8f1a3e.png?imageMogr2/auto-orient/strip|imageView2/2/w/1134/format/webp)
 
-移动端：![image.png](https://upload-images.jianshu.io/upload_images/16641848-8216416807979084.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+移动端：![image.png](https://upload-images.jianshu.io/upload_images/16641848-8216416807979084.png?imageMogr2/auto-orient/strip|imageView2/2/w/414/format/webp)
 
 
 > Tips：本文会介绍三种实现方案，推荐大家仔细看看第一种
@@ -35,7 +35,8 @@ PC：![PC端](https://upload-images.jianshu.io/upload_images/16641848-81af991dfc
  举例：接（2）中的例子，现在这4列高度依次是```[120,55,800,380]```，可以看到第2列高度最小，所以第5个图片排在第2列，紧挨着第2列的第1个图片下。然后第2列的高度变成了 55+77 = 132 ，当前这4列的高度变成了```[120,132,800,380]```。剩下的图片也按照这个逻辑去排就ok了。
 
 2. PC和移动端适配在html中配置如下：
-```html 
+
+```html
 <meta name='viewport' content='width=device-width,initial-scale=1.0,user-scalable=no' />
 ```
 
@@ -289,7 +290,7 @@ css中有这么两个属性:
 **注意**
 > 其实这样弄出来的根本不是严格意义上的瀑布流布局，只不过有一个瀑布流布局的样子而已，因为对高度的判断不如js计算来的严格，所以会出现一些不容易被注意到的问题（我也是测试了好久才找到），如下图
 
-![image.png](https://upload-images.jianshu.io/upload_images/16641848-f7d59812daced1a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://upload-images.jianshu.io/upload_images/16641848-f7d59812daced1a4.png?imageMogr2/auto-orient/strip|imageView2/2/w/1172/format/webp)
 
 **这也是我推荐大家用第一种方法的最主要原因。**
 
