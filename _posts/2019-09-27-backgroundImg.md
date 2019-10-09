@@ -16,14 +16,14 @@ title: html css 中非常经典的背景图片充满屏幕且不变形问题
 2. 图片中心与可视区中心重合，所以 ```background-position: center```
 3. 4. 图片充满整个屏幕，需要多重考虑：
 （1）如果此时浏览器可视窗口的宽高 和图片宽高 比例是下面这种
-	
-  ![bgimg1.png](https://upload-images.jianshu.io/upload_images/16641848-1349c3c28d12dd08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![bgimg1.png](https://upload-images.jianshu.io/upload_images/16641848-1349c3c28d12dd08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 为满足充满屏幕且不变形，图片应该宽度100% 高度自适应
 	```background-size:100% auto;```
-	
+
 （2）如果此时浏览器可视窗口的宽高 和图片宽高 比例是另一种情况
-	
+
 ![bgimg2.png](https://upload-images.jianshu.io/upload_images/16641848-c2064113502cfcbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 为满足充满屏幕且不变形，图片应该高度100% 宽度自适应
@@ -32,6 +32,7 @@ title: html css 中非常经典的背景图片充满屏幕且不变形问题
 5. 套一层蒙版，在里面直接写就行，记得加一个背景色和透明度，宽高和父元素相同完全覆盖就ok了。
 
 ### 代码：
+
 ``` html
 <!DOCTYPE html>
 <html lang="en">
