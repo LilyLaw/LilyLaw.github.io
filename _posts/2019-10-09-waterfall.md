@@ -8,9 +8,13 @@ title: 前端之瀑布流布局（多种实现方案）
 
 瀑布流布局一般是下面这个样子
 
-PC：![PC端](https://raw.githubusercontent.com/LilyLaw/LilyLaw.github.io/master/img/pc.webp)
+PC：
 
-移动端：![image.png](https://raw.githubusercontent.com/LilyLaw/LilyLaw.github.io/master/img/mobile.webp)
+![PC端](https://raw.githubusercontent.com/LilyLaw/LilyLaw.github.io/master/img/pc.webp)
+
+移动端：
+
+![image.png](https://raw.githubusercontent.com/LilyLaw/LilyLaw.github.io/master/img/mobile.webp)
 
 
 > Tips：本文会介绍三种实现方案，推荐大家仔细看看第一种
@@ -18,6 +22,7 @@ PC：![PC端](https://raw.githubusercontent.com/LilyLaw/LilyLaw.github.io/master
 ### 方案一： js实现，css略微辅助
 
 #### 目标要求：
+
 1. 实现瀑布流
 2. PC和移动端都要适配
 3. 图片不可变形，宽度固定
@@ -25,38 +30,41 @@ PC：![PC端](https://raw.githubusercontent.com/LilyLaw/LilyLaw.github.io/master
 5. 若屏幕宽度有富余，则图片瀑布流区域居中展示。
 
 #### 思路分析
-1. 实现瀑布流思路如下：
-  （1）根据图片宽度，计算当前屏幕一共有几列。
-举例：当前屏幕宽度是820px，每一个包裹着图片的盒子宽度是200px，所以一共可以排820/200 = 4 列（向下取整）
-  （2）先按顺序排第一列，记录下每一列当前占据的高度值。
-举例：假设当前屏幕宽度为820px,每一个包裹着图片的盒子宽度是200px,可以排4列，现在有10个图片高度分别是```[120,55,800,380,77,20,130,600,453,780]``` （单位```px```），先排前4个图片，排完之后这4列高度依次是```[120,55,800,380]```，把这4列当前高度值存起来。
-  （3）第一列排完之后开始排后面的元素，要找出所有列数中高度最小的那一个，排在它的下面，高度值累加。以此类推。
 
- 举例：接（2）中的例子，现在这4列高度依次是```[120,55,800,380]```，可以看到第2列高度最小，所以第5个图片排在第2列，紧挨着第2列的第1个图片下。然后第2列的高度变成了 55+77 = 132 ，当前这4列的高度变成了```[120,132,800,380]```。剩下的图片也按照这个逻辑去排就ok了。
+1. 实现瀑布流思路如下：
+    （1）根据图片宽度，计算当前屏幕一共有几列。
+    举例：当前屏幕宽度是820px，每一个包裹着图片的盒子宽度是200px，所以一共可以排820/200 = 4 列（向下取整）
+    （2）先按顺序排第一列，记录下每一列当前占据的高度值。
+    举例：假设当前屏幕宽度为820px,每一个包裹着图片的盒子宽度是200px,可以排4列，现在有10个图片高度分别是```[120,55,800,380,77,20,130,600,453,780]``` （单位```px```），先排前4个图片，排完之后这4列高度依次是```[120,55,800,380]```，把这4列当前高度值存起来。
+    （3）第一列排完之后开始排后面的元素，要找出所有列数中高度最小的那一个，排在它的下面，高度值累加，以此类推。
+
+    举例：接（2）中的例子，现在这4列高度依次是```[120,55,800,380]```，可以看到第2列高度最小，所以第5个图片排在第2列，紧挨着第2列的第1个图片下。然后第2列的高度变成了 55+77 = 132 ，当前这4列的高度变成了```[120,132,800,380]```。剩下的图片也按照这个逻辑去排就ok了。
 
 2. PC和移动端适配在html中配置如下：
 
-```html
-<meta name='viewport' content='width=device-width,initial-scale=1.0,user-scalable=no' />
-```
+    ```html
+    <meta name='viewport' content='width=device-width,initial-scale=1.0,user-scalable=no' />
+    ```
 
 3. 图片不变形，宽度固定
-```html```中的 ```img```不是```块级元素```，它属于```行内替换元素```，虽然```width```、```height```等属性仍然有效，但非块状元素在用css或js修饰时会遇到很多不可预测的问题。基于此，我习惯给每一个```img```用一个```div```包裹住，以后直接操作外层```div```，如下
+    ```html```中的 ```img```不是```块级元素```，它属于```行内替换元素```，虽然```width```、```height```等属性仍然有效，但非块状元素在用css或js修饰时会遇到很多不可预测的问题。基于此，我习惯给每一个```img```用一个```div```包裹住，以后直接操作外层```div```，如下
 
-```html
-<div style="width:200px;height:auto">
-  <img src="xxxxx" alt='xxxxx' style="width:100%;height:auto"/>
-</div>
-```
+    ```html
+    <div style="width:200px;height:auto">
+      <img src="xxxxx" alt='xxxxx' style="width:100%;height:auto"/>
+    </div>
+    ```
 
-4. 第4个要求说白了是要监听浏览器窗口宽度变化，然后重新布局，所以给窗口对象添加一个resize 监听事件就ok了
+4. 第4个要求其实是要监听浏览器窗口宽度变化，然后重新布局。
+    所以给窗口对象添加一个resize 监听事件就ok了
 
-```javascript
-  window.addEventListener('resize',()=>{
-    // 重新布局
-  })
-```
-5. 图片区域居中显示：如果针对单个图片去计算位置以使整个区域居中显示，这种方法计算量大，得不偿失。所以将所有图片包在一个div里，使最外层div居中就ok了。
+    ```javascript
+    window.addEventListener('resize',()=>{
+        // 重新布局
+    })
+    ```
+5. 图片区域居中显示
+    如果针对单个图片去计算位置以使整个区域居中显示，这种方法计算量大，得不偿失。所以将所有图片包在一个div里，使最外层div居中就ok了。
 
 #### 代码
 
