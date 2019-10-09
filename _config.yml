@@ -1,1 +1,5 @@
 theme: jekyll-theme-cayman
+webrick:
+  headers:
+    My-Header: 路立琳的个人博客
+    My-Other-Header: Success is not final,failure is not fatal, it is the courage to continue that counts
