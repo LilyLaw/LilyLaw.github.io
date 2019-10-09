@@ -17,14 +17,14 @@ title: html css 中非常经典的背景图片充满屏幕且不变形问题
 3. 4. 图片充满整个屏幕，需要多重考虑：
 （1）如果此时浏览器可视窗口的宽高 和图片宽高 比例是下面这种
 
-![bgimg1.png](https://upload-images.jianshu.io/upload_images/16641848-1349c3c28d12dd08.png?imageMogr2/auto-orient/strip|imageView2/2/w/865/format/webp)
+![bgimg1.png](https://upload-images.jianshu.io/upload_images/16641848-1349c3c28d12dd08.png)
 
 为满足充满屏幕且不变形，图片应该宽度100% 高度自适应
 	```background-size:100% auto;```
 
 （2）如果此时浏览器可视窗口的宽高 和图片宽高 比例是另一种情况
 
-![bgimg2.png](https://upload-images.jianshu.io/upload_images/16641848-c2064113502cfcbf.png?imageMogr2/auto-orient/strip|imageView2/2/w/896/format/webp)
+![bgimg2.png](https://upload-images.jianshu.io/upload_images/16641848-c2064113502cfcbf.png)
 
 为满足充满屏幕且不变形，图片应该高度100% 宽度自适应
 ```background-size:auto 100%;```
