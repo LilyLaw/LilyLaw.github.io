@@ -1,0 +1,73 @@
+---
+title: node 监视文件变化，且浏览器自动刷新
+---
+
+## {{page.title}}
+
+### 要求
+
+1. 监视```.md```文件变化
+2. 将```.md```转化出相应的```.html```文件
+3. 浏览器自动刷新
+
+### 算法
+
+1. 使用node中```fs.watchFile()```监视文件
+2. 使用第三方模块```marked```将```.md```转化对应的```.html```
+3. 使用第三方模块```browser-sync```自动刷新
+
+### 代码
+
+```javascript
+const fs = require('fs'),
+	path = require('path'),
+	marked = require('marked'),
+	bs = require("browser-sync").create();
+
+let watchF = '';
+if(process.argv[2]){	// 判断是否有传入文件路径
+	if(path.isAbsolute(process.argv[2])){
+		watchF = process.argv[2];
+	}else{
+		watchF = watchF = path.join(__dirname, process.argv[2]);
+	}
+}else{
+	watchF = path.join(__dirname,'./files/2019-10-15-dirTree.md');
+}
+
+let wirteFHtml = watchF.replace(path.extname(watchF),'.html');	// 创建同名的html文件
+let indexPath = path.basename(wirteFHtml);	// 设置目录index
+
+bs.init({	// 初始化刷新对象
+	server: path.dirname(watchF),
+	index: indexPath
+});
+
+fs.watchFile(watchF,{interval:200},(curr,prev)=>{	// 监听文件
+	if(curr.mtime!=prev.mtime){	// 文件发生变化
+		fs.readFile(watchF,'utf8',(err,data)=>{	// 读取 md文件内容
+			if(err) throw err;
+
+			let htmls = marked(data);	// 将md文件内容转化成html
+			htmls = conhtmls.replace('{{content}}',htmls); // 为html内容加上头尾
+			fs.writeFile(wirteFHtml,htmls,(err)=>{	// 写入更新后的内容
+				bs.reload(wirteFHtml);	// 浏览器自动刷新
+				console.log('updated at ' + new Date());
+			});
+		});
+	}
+});
+
+// html头尾
+let conhtmls = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+{{content}}
+</body>
+</html>`;
+```

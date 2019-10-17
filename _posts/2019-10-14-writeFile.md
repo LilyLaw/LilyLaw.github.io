@@ -28,7 +28,7 @@ title: node使用fs模块写文件
 	}
 	```
 
-3. 通过流的方式写文件：```fs.createWriteStream()```
+3. 流：```fs.createWriteStream()```
 
 	```javascript
 	let writeStream = fs.createWriteStream(path.join(__dirname,'./files/writeStream.txt'));
