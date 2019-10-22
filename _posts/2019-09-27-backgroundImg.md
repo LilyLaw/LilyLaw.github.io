@@ -40,69 +40,97 @@ title: html css 中非常经典的背景图片充满屏幕且不变形问题
 ### 代码：
 
 ``` html
+<!-- test.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>背景图片问题</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        html,body,.bgimg,.bgshadow{
+        html,body{
             height: 100%;
-        }
-
-        .bgimg{
-            background: url('https://images.unsplash.com/photo-1544247341-a0ab7d0955c5?ixlib=rb-1.2.1&q=99&fm=jpg&crop=entropy&cs=tinysrgb&w=2048&fit=max&ixid=eyJhcHBfaWQiOjcwOTV9') no-repeat center;
-        }
-        .bgshadow{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 10em;
-            background: rgba(68,68,68,.4);
         }
     </style>
 </head>
 <body>
-    <div class="bgimg" id="bgimg">
-        <div class="bgshadow">Hello ~ ~ ~</div>
-    </div>
+    <div id="bgimg"></div>
+
+    <script src="./bgimg.js"></script>
     <script>
-        var bgimg = new Image();
-        bgimg.src = 'https://images.unsplash.com/photo-1544247341-a0ab7d0955c5?ixlib=rb-1.2.1&q=99&fm=jpg&crop=entropy&cs=tinysrgb&w=2048&fit=max&ixid=eyJhcHBfaWQiOjcwOTV9';
+        let MybgImg = new MiddleBg({
+            id: 'bgimg',
+            imgsrc: 'https://weiliicimg6.pstatp.com/weili/l/627990026226630794.webp'
+        })
 
-        var imgInfo = {
-            w: bgimg.naturalWidth,
-            h: bgimg.naturalHeight
-        }
-
-        var bgimgDOM = document.getElementById('bgimg');
-
-        window.onload = function(){
-            window.addEventListener('resize',resizeListener())
-            resizeListener();
-        }
-
-        function resizeListener(){
-            var winfo = {
-                w: window.innerWidth,
-                h: window.innerHeight
-            }
-
-            if(winfo.w/winfo.h >= imgInfo.w/imgInfo.h){
-                bgimg.style={backgroundSize: 'auto 100%'}
-            }else{
-                bgimg.style={backgroundSize: '100% auto'}
-            }
-        }
-
+        MybgImg.bgRender();
     </script>
 </body>
+
 </html>
+```
+
+```javascript
+// bgimg.js
+
+function MiddleBg(obj){
+    this.id = obj.id;
+    this.imgsrc = obj.imgsrc;
+    this.bgimgDOM = document.getElementById(this.id);
+    this.bgimg = new Image();
+    this.bgimg.src = this.imgsrc;
+}
+
+MiddleBg.prototype = {
+    bgimgDOM: document.getElementById(this.id),
+    init: function(){
+        let innbgshadow = document.createElement('div');
+        innbgshadow.className = 'bgshadow';
+        innbgshadow.innerHTML = 'Hello ~ ~ ~'
+        this.bgimgDOM.appendChild(innbgshadow);
+
+        this.bgimgDOM.className = 'bgimg';
+        let styleEle = document.createElement('style');
+
+        // es6 模板字符串，不了解的请自行查阅
+        styleEle.innerHTML = `.${this.bgimgDOM.className},.${this.bgimgDOM.className} .bgshadow {
+          height: 100%;
+        }
+        .${this.bgimgDOM.className}{
+            background: url('${this.imgsrc}') no-repeat center;
+        }
+        .${this.bgimgDOM.className} .bgshadow {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          font-size: 5em;
+          background: rgba(68, 68, 68, .4);
+        }`;
+        this.bgimgDOM.appendChild(styleEle);
+    },
+    resizeListener: function(){
+        if (window.innerWidth / window.innerHeight >= this.bgimg.naturalWidth / this.bgimg.naturalHeight) {
+            this.bgimgDOM.style.backgroundSize = '100% auto';
+        } else {
+            this.bgimgDOM.style.backgroundSize = 'auto 100%';
+        }
+    },
+    bgRender: function(){
+        // onload 确保图片资源已加载以获取图片原始大小，再进行箭头函数中的操作
+        window.onload = ()=>{ // es6 箭头函数，不了解的请自行查阅
+            this.init();
+            this.resizeListener();
+        }
+        window.onresize = ()=>{ // 添加监听事件，在此处使用箭头函数，防止this指向window
+            this.resizeListener();
+        }
+    }
+}
 ```
 
 我自己试验了一下，完全ok
