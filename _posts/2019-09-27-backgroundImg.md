@@ -86,7 +86,6 @@ function MiddleBg(obj){
 }
 
 MiddleBg.prototype = {
-    bgimgDOM: document.getElementById(this.id),
     init: function(){
         let innbgshadow = document.createElement('div');
         innbgshadow.className = 'bgshadow';
