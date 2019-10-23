@@ -1,5 +1,6 @@
 ---
 title: 使用Node中的Buffer模块，将图片转换成base64编码
+category: node
 ---
 
 ## {{ page.title }}

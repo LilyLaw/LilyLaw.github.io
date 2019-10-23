@@ -1,5 +1,6 @@
 ---
 title: node实现控制台进度条
+category: node
 ---
 
 ## {{page.title}}

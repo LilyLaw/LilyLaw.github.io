@@ -3,6 +3,6 @@ title: 路立琳的博客
 ---
 ## {{ page.title }}
 
-{% for post in site.posts %}
+{% for post in site.categories.[page.category] %}
 - [{{ post.title }}]({{site.baseurl}}{{post.url}})
 {% endfor %}

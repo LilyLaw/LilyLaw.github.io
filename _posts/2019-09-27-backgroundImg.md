@@ -1,6 +1,6 @@
 ---
 title: html css 中非常经典的背景图片充满屏幕且不变形问题
-category: 前端
+category: FrontEnd
 ---
 
 ## {{ page.title }}
