@@ -147,3 +147,4 @@ function b(x,y,a){
 a = b(1,2,3);
 console.log(a);
 ```
+**解析**：非严格模式下，形参和```arguments```一一映射
