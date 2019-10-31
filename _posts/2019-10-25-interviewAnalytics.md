@@ -148,3 +148,41 @@ a = b(1,2,3);
 console.log(a);
 ```
 **解析**：非严格模式下，形参和```arguments```一一映射
+
+#### （8）
+```javascript
+var foo = 'hello';
+(function(foo){
+	console.log(foo);
+	var foo = foo || 'world';
+	console.log(foo);
+})(foo)
+console.log(foo);
+```
+**解析**：
+```javascript
+// 1. 全局作用域下变量提升：var foo；
+// 2. 代码自上而下执行: foo = 'hello'; 执行自执行函数,
+// 3. 给自执行函数传递实参
+var foo = 'hello';
+(function(foo){	// 4. 形参赋值：私有作用域下的foo变量的值为'hello'
+	// 5. 私有作用域下变量提升，但是形参已经是foo，所以不再重新提升，foo不会进行重复声明
+	// 6. 代码自上而下执行
+	console.log(foo);	// 取私有作用域下的foo的值'hello'
+	var foo = foo || 'world';
+	console.log(foo);	// 取私有作用域下的foo的值'hello'
+})(foo)	// 将全局作用域下 foo变量的值'hello' 做为实参传递给自执行函数
+console.log(foo);	// 取全局作用域下的foo的值'hello'
+```
+**注意** 1. 逻辑与```&&```和逻辑或```||```在条件判断和赋值语句中的作用（很重要，自己试验）；2. 逻辑与的优先级高于逻辑或
+```javascript
+function fn(num, callback){
+	// 如果num没有传值,让其默认值是0
+	// if(typeof num === 'undefined') num = 0;
+	num = num || 0;	// 真实项目中，应用逻辑或实现默认值的设置操作
+
+	// 如果callback是函数,则执行这个函数
+	// if(typeof callback === 'function') callback();
+	callback && callback(); // 符合某个条件之后，就执行某个事
+ }
+```

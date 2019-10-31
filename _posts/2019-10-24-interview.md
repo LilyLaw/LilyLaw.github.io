@@ -104,7 +104,32 @@ function b(x,y,a){
 a = b(1,2,3);
 console.log(a);
 ```
+#### （8）
+```javascript
+var foo = 'hello';
+(function(foo){
+	console.log(foo);
+	var foo = foo || 'world';
+	console.log(foo);
+})(foo)
+console.log(foo);
+```
+####（9）
+```javascript
+var a = 9;
+function fn(){
+	a = 0;
+	return function(b){
+		return b+a++;
+	}
+}
 
+var f = fn();
+console.log(f(5));
+console.log(fn()(5));
+console.log(f(5));
+console.log(a);
+```
 
 **考点:**   js变量提升、作用域、闭包
 
