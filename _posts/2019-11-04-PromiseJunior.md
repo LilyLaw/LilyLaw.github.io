@@ -110,7 +110,7 @@ new Promise((resolve,reject)=>{
 
 不是名言，但具有名言的特质
 
-### Promise处理多次关联的异步请求
+### 三、 Promise处理多次关联的异步请求
 
 Promise 用法详细文档，这个可以看看：[https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Using_promises](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Using_promises)
 

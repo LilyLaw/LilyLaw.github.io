@@ -186,3 +186,21 @@ function fn(num, callback){
 	callback && callback(); // 符合某个条件之后，就执行某个事
  }
 ```
+###（9）
+```javascript
+var ary = [1,2,3,4];
+function fn(ary){
+	ary[0] = 0;
+	ary = [0];
+	ary[0] = 100;
+
+	return ary;
+}
+var res = fn(ary);
+
+console.log(res);
+console.log(ary);
+```
+**解析**：直接看图吧。
+
+![referenceType.jpg](https://raw.githubusercontent.com/LilyLaw/LilyLaw.github.io/master/img/referenceType.jpg)
